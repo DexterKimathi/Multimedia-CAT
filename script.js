@@ -5,8 +5,8 @@
  *  - Paused / ended  →  play and make visible
  *  - Playing         →  pause and hide
  *
- * Button label, aria-pressed, status dot, and status text are all
- * kept in sync with the actual video state so screen-reader users
+ * Button label, aria-pressed, btn-icon, status dot, and status text are
+ * all kept in sync with the actual video state so screen-reader users
  * are always informed of the current playback status.
  */
 
@@ -15,6 +15,7 @@
 
   const video       = document.getElementById("wildlifeVideo");
   const btn         = document.getElementById("toggleBtn");
+  const btnIcon     = btn  ? btn.querySelector(".btn-icon")   : null;
   const statusDot   = document.getElementById("statusDot");
   const statusLabel = document.getElementById("statusLabel");
 
@@ -24,7 +25,14 @@
   function syncUI() {
     const playing = !video.paused && !video.ended;
 
-    btn.textContent = playing ? "Pause / Hide Video" : "Play Video";
+    if (btnIcon) btnIcon.textContent = playing ? "■" : "▶";
+
+    // Update button text node (preserve the icon span)
+    const textNode = Array.from(btn.childNodes).find(
+      (n) => n.nodeType === Node.TEXT_NODE
+    );
+    if (textNode) textNode.textContent = playing ? " Pause / Hide Video" : " Play Video";
+
     btn.setAttribute("aria-pressed", String(playing));
     btn.classList.toggle("is-playing", playing);
 

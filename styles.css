@@ -1,29 +1,41 @@
 /* ===========================
-   Base & Reset
+   Reset
 =========================== */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 /* ===========================
-   CSS Custom Properties
+   Design Tokens
+   Palette: deep forest night + dawn amber + ivory
 =========================== */
 :root {
-  --ink: oklch(12% 0.008 145);
-  --paper: oklch(96% 0.006 145);
-  --moss: oklch(38% 0.12 145);
-  --lime: oklch(74% 0.2 135);
-  --rust: oklch(58% 0.19 35);
-  --off-white: oklch(94% 0.008 145);
-  --rule: oklch(20% 0.01 145);
-  --max-w: 860px;
+  /* Surface scale */
+  --forest-deep:   oklch(10% 0.03  145);   /* page bg */
+  --forest-floor:  oklch(15% 0.04  145);   /* card bg */
+  --canopy:        oklch(28% 0.09  145);   /* borders, dividers */
+  --moss:          oklch(42% 0.14  145);   /* muted accents */
+
+  /* Accent: warm dawn amber */
+  --amber:         oklch(72% 0.17   75);
+  --amber-dim:     oklch(55% 0.14   75);
+
+  /* Text */
+  --ivory:         oklch(93% 0.012  85);   /* headings */
+  --stone:         oklch(72% 0.012  85);   /* body text */
+  --fern:          oklch(60% 0.14  145);   /* de-emphasised */
+
+  /* Alert */
+  --danger:        oklch(58% 0.19   25);
+
+  /* Typography */
   --mono: "Courier New", Courier, monospace;
-  --sans: "Arial Black", "Impact", sans-serif;
-  --body: "Georgia", serif;
+  --display: "Arial Black", Impact, sans-serif;
+  --body: Georgia, "Times New Roman", serif;
+
+  --max-w: 880px;
 }
 
 /* ===========================
@@ -31,12 +43,20 @@
 =========================== */
 body {
   font-family: var(--body);
-  background-color: var(--ink);
-  color: var(--paper);
+  background-color: var(--forest-deep);
+
+  /* Fine noise-like texture via repeating-conic-gradient */
+  background-image: repeating-conic-gradient(
+    oklch(11% 0.03 145) 0%,
+    oklch(10% 0.025 145) 0.5%,
+    oklch(10% 0.03 145) 1%
+  );
+
+  color: var(--ivory);
   min-height: 100vh;
   display: grid;
   place-items: start center;
-  padding: 3rem 1.25rem;
+  padding: 3rem 1.25rem 4rem;
 }
 
 /* ===========================
@@ -47,87 +67,175 @@ body {
   max-width: var(--max-w);
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 /* ===========================
-   Header
+   HEADER
 =========================== */
-header {
-  border: 2px solid var(--paper);
+.site-header {
+  border: 2px solid var(--canopy);
   border-bottom: none;
-  padding: 2.5rem 2rem 2rem;
+  padding: 2.5rem 2.5rem 2.25rem;
   position: relative;
+  background: var(--forest-floor);
+
+  /* Vertical track on the right: echoes a field notebook binding */
+  box-shadow: inset -4px 0 0 0 var(--canopy);
 }
 
-/* Overline label */
-header::before {
-  content: "CONSERVATION INITIATIVE · 2026";
-  display: block;
+/* Horizontal tick marks — like ruled field-notes paper */
+.site-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--canopy) 0px,
+    var(--canopy) 6px,
+    transparent 6px,
+    transparent 14px
+  );
+}
+
+/* Org tag */
+.org-tag {
   font-family: var(--mono);
   font-size: 0.65rem;
   letter-spacing: 0.18em;
-  color: var(--lime);
-  margin-bottom: 1rem;
+  color: var(--fern);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-h1 {
-  font-family: var(--sans);
-  font-size: clamp(2.8rem, 8vw, 6rem);
-  font-weight: 900;
-  line-height: 0.92;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  color: var(--paper);
+.org-emblem {
+  color: var(--amber);
+  font-size: 0.8rem;
+}
 
-  /* Stencil-cut feel: outline the last word differently */
+/* Main heading */
+h1 {
+  font-family: var(--display);
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  color: var(--ivory);
 }
 
 h1 span {
-  color: var(--lime);
+  /* Hollow / stencil treatment for "WILDLIFE" */
+  color: transparent;
+  -webkit-text-stroke: 2px var(--amber);
 }
 
 .tagline {
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
   font-family: var(--mono);
   font-size: 0.78rem;
   letter-spacing: 0.1em;
-  color: oklch(65% 0.04 145);
+  color: var(--fern);
   text-transform: uppercase;
-  border-top: 1px solid var(--rule);
-  padding-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 /* ===========================
-   Video Section
+   STATS BAR
 =========================== */
-.video-section {
-  border: 2px solid var(--paper);
-  padding: 0;
+.stats-bar {
+  display: flex;
+  background: var(--amber);
+  color: var(--forest-deep);
+  border: 2px solid var(--amber);
+  border-top: none;
+}
+
+.stat {
+  flex: 1;
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
+  gap: 0.2rem;
 }
 
-/* Label bar above the video */
-.video-section::before {
-  content: "▶  FEATURED FOOTAGE";
-  display: block;
+.stat-num {
+  font-family: var(--display);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--forest-deep);
+}
+
+.stat-desc {
   font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
-  background: var(--lime);
-  color: var(--ink);
-  padding: 0.4rem 1rem;
-  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: oklch(22% 0.04 75);
+  line-height: 1.3;
 }
 
-/* Responsive 16:9 wrapper */
+.stat-divider {
+  width: 2px;
+  background: oklch(60% 0.14 75);
+  align-self: stretch;
+}
+
+/* ===========================
+   VIDEO SECTION
+=========================== */
+.video-section {
+  border: 2px solid var(--canopy);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  background: var(--forest-floor);
+}
+
+/* Label bar */
+.video-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stone);
+  border-bottom: 1px solid var(--canopy);
+  background: oklch(13% 0.035 145);
+}
+
+/* Pulsing REC dot */
+.rec-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--danger);
+  display: inline-block;
+  animation: pulse-rec 2s ease-in-out infinite;
+}
+
+@keyframes pulse-rec {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* 16:9 responsive wrapper */
 .video-wrapper {
   position: relative;
   width: 100%;
   padding-top: 56.25%;
-  background: oklch(6% 0.005 145);
-  border-bottom: 2px solid var(--paper);
+  background: oklch(5% 0.01 145);
 }
 
 .video-wrapper video {
@@ -139,164 +247,241 @@ h1 span {
   display: block;
 }
 
-/* Button strip below video */
-.btn-strip {
+.video-fallback {
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--fern);
+  padding: 1rem;
+  text-align: center;
+}
+
+.video-fallback a {
+  color: var(--amber);
+  text-underline-offset: 3px;
 }
 
 /* ===========================
-   Toggle Button
+   BUTTON STRIP
 =========================== */
+.btn-strip {
+  display: flex;
+  align-items: stretch;
+  border-top: 2px solid var(--canopy);
+}
+
 .toggle-btn {
   flex: 1;
   background: transparent;
-  color: var(--paper);
+  color: var(--ivory);
   border: none;
-  border-right: 2px solid var(--paper);
+  border-right: 2px solid var(--canopy);
   padding: 1rem 1.5rem;
   font-family: var(--mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 700;
   cursor: pointer;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   transition: background 0.15s, color 0.15s;
-  position: relative;
 }
 
-.toggle-btn::after {
-  content: "→";
-  position: absolute;
-  right: 1rem;
+.btn-icon {
+  font-size: 0.7rem;
   transition: transform 0.15s;
 }
 
 .toggle-btn:hover {
-  background: var(--lime);
-  color: var(--ink);
+  background: var(--amber);
+  color: var(--forest-deep);
 }
 
-.toggle-btn:hover::after {
-  transform: translateX(4px);
+.toggle-btn:hover .btn-icon {
+  transform: scale(1.3);
 }
 
 .toggle-btn:focus-visible {
-  outline: 3px solid var(--lime);
+  outline: 3px solid var(--amber);
   outline-offset: -3px;
 }
 
 .toggle-btn.is-playing {
-  background: var(--rust);
-  color: var(--off-white);
+  background: oklch(18% 0.05 145);
+  color: var(--danger);
 }
 
-.toggle-btn.is-playing::after {
+.toggle-btn.is-playing .btn-icon::before {
   content: "■";
 }
 
 .toggle-btn.is-playing:hover {
-  background: oklch(50% 0.19 35);
-  color: var(--off-white);
+  background: var(--danger);
+  color: var(--ivory);
 }
 
-/* Status indicator cell */
+/* Status cell */
 .status-cell {
   padding: 1rem 1.25rem;
   font-family: var(--mono);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   letter-spacing: 0.1em;
-  color: oklch(50% 0.04 145);
+  color: var(--fern);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   white-space: nowrap;
   user-select: none;
+  text-transform: uppercase;
 }
 
 .status-dot {
   width: 7px;
   height: 7px;
-  background: oklch(45% 0.04 145);
+  background: var(--canopy);
   display: inline-block;
-  transition: background 0.2s;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .status-dot.live {
-  background: var(--lime);
-  box-shadow: 0 0 6px var(--lime);
+  background: oklch(65% 0.22 145);
+  box-shadow: 0 0 8px oklch(65% 0.22 145);
 }
 
 /* ===========================
-   Description
+   DESCRIPTION
 =========================== */
 .description {
-  border: 2px solid var(--paper);
+  border: 2px solid var(--canopy);
   border-top: none;
   display: grid;
-  grid-template-columns: 3px 1fr;
+  grid-template-columns: 56px 1fr;
+  background: var(--forest-floor);
 }
 
-.description-accent {
-  background: var(--lime);
+/* Large chapter number column */
+.desc-number {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--canopy);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px solid var(--canopy);
+  letter-spacing: 0.1em;
+  user-select: none;
 }
 
-.description-body {
-  padding: 1.75rem 2rem;
+.desc-content {
+  padding: 2rem 2rem 2rem 1.75rem;
 }
 
-.description-body p {
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
-  color: oklch(82% 0.008 145);
-  max-width: 68ch;
-  line-height: 1.75;
-}
-
-/* Pull-quote number */
-.description-body::before {
-  content: "01 —";
-  display: block;
+.desc-heading {
   font-family: var(--mono);
   font-size: 0.65rem;
-  letter-spacing: 0.14em;
-  color: var(--lime);
-  margin-bottom: 0.75rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.9rem;
+}
+
+.desc-content p {
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  color: var(--stone);
+  max-width: 64ch;
+  line-height: 1.8;
 }
 
 /* ===========================
-   Footer rule
+   CTA STRIP
 =========================== */
+.cta-strip {
+  border: 2px solid var(--canopy);
+  border-top: none;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: oklch(13% 0.035 145);
+}
+
+.cta-text {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.cta-mark {
+  color: var(--amber);
+  font-size: 1rem;
+}
+
+/* Dashed bottom cap */
 .container::after {
   content: "";
   display: block;
-  height: 4px;
+  height: 5px;
   background: repeating-linear-gradient(
     90deg,
-    var(--lime) 0px,
-    var(--lime) 8px,
-    transparent 8px,
-    transparent 16px
+    var(--amber)   0px,
+    var(--amber)   10px,
+    transparent    10px,
+    transparent    18px
   );
-  border: 2px solid var(--paper);
+  border: 2px solid var(--canopy);
   border-top: none;
 }
 
 /* ===========================
    Responsive
 =========================== */
-@media (max-width: 520px) {
+@media (max-width: 560px) {
   body {
-    padding: 1.25rem 0.75rem;
+    padding: 1rem 0.75rem 3rem;
   }
 
-  header {
-    padding: 1.75rem 1.25rem 1.5rem;
+  .site-header {
+    padding: 1.75rem 1.25rem 1.75rem;
+    box-shadow: none;
   }
 
-  .description-body {
-    padding: 1.25rem 1.25rem;
+  .stats-bar {
+    flex-direction: column;
+  }
+
+  .stat-divider {
+    width: 100%;
+    height: 1px;
+  }
+
+  .description {
+    grid-template-columns: 1fr;
+  }
+
+  .desc-number {
+    writing-mode: horizontal-tb;
+    border-right: none;
+    border-bottom: 2px solid var(--canopy);
+    padding: 0.5rem 1.25rem;
+    font-size: 0.7rem;
+    color: var(--amber);
+    justify-content: flex-start;
+  }
+
+  .desc-content {
+    padding: 1.5rem 1.25rem;
   }
 
   .status-cell {
@@ -306,15 +491,21 @@ h1 span {
   .toggle-btn {
     border-right: none;
   }
+
+  .cta-strip {
+    padding: 1rem 1.25rem;
+  }
 }
 
 /* ===========================
    Reduced Motion
 =========================== */
 @media (prefers-reduced-motion: reduce) {
+  .rec-dot,
   .toggle-btn,
-  .toggle-btn::after,
+  .btn-icon,
   .status-dot {
+    animation: none;
     transition: none;
   }
 }

@@ -12,11 +12,10 @@
   </head>
   <body>
     <main class="container" role="main">
+
       <header>
-        <h1>Save Our Wildlife</h1>
-        <p class="tagline">
-          Every species matters. Every action counts.
-        </p>
+        <h1>Save Our <span>Wildlife</span></h1>
+        <p class="tagline">Every species matters. Every action counts.</p>
       </header>
 
       <section class="video-section" aria-label="Wildlife promotional video">
@@ -28,32 +27,41 @@
           >
             <source src="wildlife.mp4" type="video/mp4" />
             <p>
-              Your browser does not support HTML5 video. Please
-              <a href="wildlife.mp4" download>download the video</a> to watch
-              it.
+              Your browser does not support HTML5 video.
+              <a href="wildlife.mp4" download>Download the video</a> instead.
             </p>
           </video>
         </div>
 
-        <button
-          id="toggleBtn"
-          class="toggle-btn"
-          aria-pressed="false"
-          aria-controls="wildlifeVideo"
-        >
-          ▶ Play Video
-        </button>
+        <div class="btn-strip">
+          <button
+            id="toggleBtn"
+            class="toggle-btn"
+            aria-pressed="false"
+            aria-controls="wildlifeVideo"
+          >
+            Play Video
+          </button>
+          <div class="status-cell" aria-live="polite" aria-atomic="true">
+            <span class="status-dot" id="statusDot"></span>
+            <span id="statusLabel">STANDBY</span>
+          </div>
+        </div>
       </section>
 
       <section class="description" aria-label="About the campaign">
-        <p>
-          Our planet's wildlife is under unprecedented threat from habitat loss,
-          climate change, and poaching. This video showcases the breathtaking
-          beauty of endangered species and the urgent conservation efforts being
-          made to protect them. Join us in making a difference — because once
-          they're gone, they're gone forever.
-        </p>
+        <div class="description-accent" aria-hidden="true"></div>
+        <div class="description-body">
+          <p>
+            Our planet's wildlife faces unprecedented threats from habitat loss,
+            climate change, and poaching. This footage showcases the
+            breathtaking beauty of endangered species and the urgent efforts
+            underway to protect them. Join us; because once they're gone,
+            they're gone forever.
+          </p>
+        </div>
       </section>
+
     </main>
 
     <script src="script.js"></script>

@@ -1,53 +1,53 @@
 /**
  * Wildlife Video Toggle
  *
- * Clicking the button:
- *  - If the video is paused (or ended), play it and show it.
- *  - If the video is playing, pause it and hide it.
+ * Button behaviour:
+ *  - Paused / ended  →  play and make visible
+ *  - Playing         →  pause and hide
  *
- * The button label and aria-pressed attribute are kept in sync
- * with the actual video state so screen-reader users are always
- * informed of the current status.
+ * Button label, aria-pressed, status dot, and status text are all
+ * kept in sync with the actual video state so screen-reader users
+ * are always informed of the current playback status.
  */
 
 (function () {
   "use strict";
 
-  const video = document.getElementById("wildlifeVideo");
-  const btn = document.getElementById("toggleBtn");
+  const video       = document.getElementById("wildlifeVideo");
+  const btn         = document.getElementById("toggleBtn");
+  const statusDot   = document.getElementById("statusDot");
+  const statusLabel = document.getElementById("statusLabel");
 
   if (!video || !btn) return;
 
-  /**
-   * Sync the button's visible label and ARIA state to the current
-   * playback state of the video.
-   */
-  function syncButton() {
+  /** Sync all UI controls to the current playback state. */
+  function syncUI() {
     const playing = !video.paused && !video.ended;
-    btn.textContent = playing ? "⏸ Hide / Pause Video" : "▶ Play Video";
+
+    btn.textContent = playing ? "Pause / Hide Video" : "Play Video";
     btn.setAttribute("aria-pressed", String(playing));
     btn.classList.toggle("is-playing", playing);
+
+    if (statusDot)   statusDot.classList.toggle("live", playing);
+    if (statusLabel) statusLabel.textContent = playing ? "LIVE" : "STANDBY";
   }
 
-  /** Handle the toggle button click */
+  /** Handle the toggle button click. */
   btn.addEventListener("click", function () {
     if (video.paused || video.ended) {
-      // Ensure the video is visible before playing
       video.style.visibility = "visible";
       video.play().catch(function (err) {
         console.warn("Playback failed:", err);
       });
     } else {
       video.pause();
-      // Hide the video after pausing
       video.style.visibility = "hidden";
     }
-    syncButton();
+    syncUI();
   });
 
-  // Keep the button in sync when video state changes through
-  // the native controls (play/pause clicks on the video itself).
-  video.addEventListener("play", syncButton);
-  video.addEventListener("pause", syncButton);
-  video.addEventListener("ended", syncButton);
+  // Stay in sync when the user interacts with the native video controls.
+  video.addEventListener("play",  syncUI);
+  video.addEventListener("pause", syncUI);
+  video.addEventListener("ended", syncUI);
 })();

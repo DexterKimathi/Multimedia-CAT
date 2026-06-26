@@ -13,194 +13,308 @@
    CSS Custom Properties
 =========================== */
 :root {
-  --color-bg: #0d1b0f;
-  --color-surface: #132218;
-  --color-primary: #4caf50;
-  --color-primary-hover: #388e3c;
-  --color-accent: #a5d6a7;
-  --color-text: #e8f5e9;
-  --color-muted: #b0bec5;
-  --color-border: #2e4d35;
-  --radius: 12px;
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-  --font-stack: "Segoe UI", system-ui, sans-serif;
-  --max-width: 860px;
+  --ink: oklch(12% 0.008 145);
+  --paper: oklch(96% 0.006 145);
+  --moss: oklch(38% 0.12 145);
+  --lime: oklch(74% 0.2 135);
+  --rust: oklch(58% 0.19 35);
+  --off-white: oklch(94% 0.008 145);
+  --rule: oklch(20% 0.01 145);
+  --max-w: 860px;
+  --mono: "Courier New", Courier, monospace;
+  --sans: "Arial Black", "Impact", sans-serif;
+  --body: "Georgia", serif;
 }
 
 /* ===========================
-   Typography & Body
+   Body
 =========================== */
 body {
-  font-family: var(--font-stack);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.7;
+  font-family: var(--body);
+  background-color: var(--ink);
+  color: var(--paper);
   min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 2rem 1rem;
+  display: grid;
+  place-items: start center;
+  padding: 3rem 1.25rem;
 }
 
 /* ===========================
-   Layout Container
+   Container
 =========================== */
 .container {
   width: 100%;
-  max-width: var(--max-width);
+  max-width: var(--max-w);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0;
 }
 
 /* ===========================
    Header
 =========================== */
 header {
-  text-align: center;
+  border: 2px solid var(--paper);
+  border-bottom: none;
+  padding: 2.5rem 2rem 2rem;
+  position: relative;
+}
+
+/* Overline label */
+header::before {
+  content: "CONSERVATION INITIATIVE · 2026";
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--lime);
+  margin-bottom: 1rem;
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  color: var(--color-primary);
-  letter-spacing: -0.5px;
-  text-shadow: 0 2px 12px rgba(76, 175, 80, 0.4);
+  font-family: var(--sans);
+  font-size: clamp(2.8rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--paper);
+
+  /* Stencil-cut feel: outline the last word differently */
+}
+
+h1 span {
+  color: var(--lime);
 }
 
 .tagline {
-  margin-top: 0.5rem;
-  font-size: clamp(0.95rem, 2vw, 1.15rem);
-  color: var(--color-muted);
-  font-style: italic;
+  margin-top: 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: oklch(65% 0.04 145);
+  text-transform: uppercase;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.75rem;
 }
 
 /* ===========================
    Video Section
 =========================== */
 .video-section {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
+  border: 2px solid var(--paper);
+  padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
 }
 
-/* Responsive video wrapper – maintains 16:9 ratio */
+/* Label bar above the video */
+.video-section::before {
+  content: "▶  FEATURED FOOTAGE";
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  background: var(--lime);
+  color: var(--ink);
+  padding: 0.4rem 1rem;
+  font-weight: 700;
+}
+
+/* Responsive 16:9 wrapper */
 .video-wrapper {
   position: relative;
   width: 100%;
   padding-top: 56.25%;
-  border-radius: calc(var(--radius) - 4px);
-  overflow: hidden;
-  background: #000;
+  background: oklch(6% 0.005 145);
+  border-bottom: 2px solid var(--paper);
 }
 
 .video-wrapper video {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
 }
 
+/* Button strip below video */
+.btn-strip {
+  display: flex;
+  align-items: stretch;
+}
+
 /* ===========================
    Toggle Button
 =========================== */
 .toggle-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--color-primary);
-  color: #fff;
+  flex: 1;
+  background: transparent;
+  color: var(--paper);
   border: none;
-  border-radius: 50px;
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
+  border-right: 2px solid var(--paper);
+  padding: 1rem 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.15s ease,
-    box-shadow 0.2s ease;
-  box-shadow: 0 4px 14px rgba(76, 175, 80, 0.4);
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  position: relative;
+}
+
+.toggle-btn::after {
+  content: "→";
+  position: absolute;
+  right: 1rem;
+  transition: transform 0.15s;
 }
 
 .toggle-btn:hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(76, 175, 80, 0.55);
+  background: var(--lime);
+  color: var(--ink);
+}
+
+.toggle-btn:hover::after {
+  transform: translateX(4px);
 }
 
 .toggle-btn:focus-visible {
-  outline: 3px solid var(--color-accent);
-  outline-offset: 4px;
-}
-
-.toggle-btn:active {
-  transform: translateY(0);
+  outline: 3px solid var(--lime);
+  outline-offset: -3px;
 }
 
 .toggle-btn.is-playing {
-  background-color: #c62828;
-  box-shadow: 0 4px 14px rgba(198, 40, 40, 0.4);
+  background: var(--rust);
+  color: var(--off-white);
+}
+
+.toggle-btn.is-playing::after {
+  content: "■";
 }
 
 .toggle-btn.is-playing:hover {
-  background-color: #b71c1c;
-  box-shadow: 0 6px 18px rgba(183, 28, 28, 0.55);
+  background: oklch(50% 0.19 35);
+  color: var(--off-white);
+}
+
+/* Status indicator cell */
+.status-cell {
+  padding: 1rem 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: oklch(50% 0.04 145);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  background: oklch(45% 0.04 145);
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.status-dot.live {
+  background: var(--lime);
+  box-shadow: 0 0 6px var(--lime);
 }
 
 /* ===========================
    Description
 =========================== */
 .description {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: 1.5rem 2rem;
-  box-shadow: var(--shadow);
+  border: 2px solid var(--paper);
+  border-top: none;
+  display: grid;
+  grid-template-columns: 3px 1fr;
 }
 
-.description p {
+.description-accent {
+  background: var(--lime);
+}
+
+.description-body {
+  padding: 1.75rem 2rem;
+}
+
+.description-body p {
   font-size: clamp(0.95rem, 2vw, 1.05rem);
-  color: var(--color-accent);
-  max-width: 70ch;
-  margin: 0 auto;
-  text-align: center;
+  color: oklch(82% 0.008 145);
+  max-width: 68ch;
+  line-height: 1.75;
+}
+
+/* Pull-quote number */
+.description-body::before {
+  content: "01 —";
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--lime);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
 }
 
 /* ===========================
-   Responsive Breakpoints
+   Footer rule
 =========================== */
-@media (max-width: 480px) {
+.container::after {
+  content: "";
+  display: block;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--lime) 0px,
+    var(--lime) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border: 2px solid var(--paper);
+  border-top: none;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+@media (max-width: 520px) {
   body {
-    padding: 1rem 0.75rem;
+    padding: 1.25rem 0.75rem;
   }
 
-  .video-section {
-    padding: 1rem;
+  header {
+    padding: 1.75rem 1.25rem 1.5rem;
+  }
+
+  .description-body {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .status-cell {
+    display: none;
   }
 
   .toggle-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .description {
-    padding: 1.25rem 1rem;
+    border-right: none;
   }
 }
 
 /* ===========================
-   Accessibility – Reduced Motion
+   Reduced Motion
 =========================== */
 @media (prefers-reduced-motion: reduce) {
-  .toggle-btn {
+  .toggle-btn,
+  .toggle-btn::after,
+  .status-dot {
     transition: none;
   }
 }
